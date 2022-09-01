@@ -109,26 +109,30 @@ char **tokenize(char *str)
 * execute-cmd - Executes inserted command
 * @args:        List of pointers to command strings
 */
-void executecmd (char **args)
+void executecmd (char **args, int cmd_type)
 {
-    pid_t child_pid;
-    int status;
-
-    child_pid = fork();
-
-    if (child_pid == 0)
-    {
-        execve(args[0], args, NULL);
-        dprintf(STDERR_FILENO, "%s: Command not found.\n", *args);
-        exit(1);
+    if (cmd_type = BUILT_IN_CMD || EXTERNAL_CMD)
     }
-    else if (child_pid < 0)
-    {
-        perror("Failed to create child process");
-        exit(1);
+
+        pid_t child_pid;
+        int status;
+
+        child_pid = fork();
+
+        if (child_pid == 0)
+        {
+            execute(args,cmd_type);
+        }
+        else if (child_pid < 0)
+        {
+            perror("Failed to create child process");
+            exit(1);
+        }
+        else
+            wait(&status);
     }
     else
-        wait(&status);
+        execute(args, cmd_type);
 }
 
 

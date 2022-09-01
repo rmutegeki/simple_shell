@@ -4,6 +4,7 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
     char *n_read;
     char **args;
+    int cmd_type;
 
     (void) argv;
 
@@ -20,7 +21,8 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
                 break;
         }
         args = tokenize(n_read);
-        executecmd(args);
+        cmd_type = check_cmdtype(*args);
+        executecmd(args, cmd_type); /* Not complete Path-cmd, built-in cmd missing*/
     }
     return (0);
 }
