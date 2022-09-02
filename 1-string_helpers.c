@@ -1,14 +1,13 @@
 #include "shell.h"
 
 /**
-* _printf - prints stdin to stdout on terminal
+* print - prints stdin to stdout on terminal
 * @str:     string buffer to be written to
 * @fd:      File Descriptor
 *
 * Return:   Outputs stdin on stdout of file descriptor
 */
-
-ssize_t _printf(char *str, int fd)
+ssize_t print(char *str, int fd)
 {
     ssize_t len = 0, num;
 
@@ -21,17 +20,6 @@ ssize_t _printf(char *str, int fd)
         return (-1);
     }
     return (len);
-}
-
-/**
-* _putchar -    print a character
-* @c:           character to print
-* Return:       0
-*/
-
-int _putchar(char c)
-{
-    return (write(1, &c, 1));
 }
 
 /**
@@ -58,8 +46,6 @@ unsigned int _strlen(char *str)
 */
 int _strcmp(char *str1, char *str2)
 {
-    int index = 0;
-
     while (*str1 && *str2)
     {
         if (*str1 != *str2)
@@ -72,18 +58,3 @@ int _strcmp(char *str1, char *str2)
     else
         return (*str1 < *str2 ? -1 : 1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

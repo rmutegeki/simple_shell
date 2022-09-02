@@ -11,7 +11,7 @@ int check_cmdtype(char *args)
     char *builtin_cmd[] = {"exit", "cd", "env", NULL};
 
     /* Checks for external commands */
-    while (args[i] != NULL)
+    while (args[i])
     {
         if (args[i] == '/')
             return (EXTERNAL_CMD);
@@ -21,7 +21,7 @@ int check_cmdtype(char *args)
     i = 0;
     while (builtin_cmd[i] != NULL)
     {
-        if (_strcmp(args[0], builtin_cmd[i]) == 0)
+        if (_strcmp(args, builtin_cmd[i]) == 0)
             return (BUILT_IN_CMD);
         i++;
     }
@@ -35,34 +35,67 @@ int check_cmdtype(char *args)
 */
 void execute(char **args, int cmd_type)
 {
-    if (cmd_type == EXTERNAL_CMD)
+    void (*func)(char **arg);
+
+    switch (cmd_type)
+	{
+		case EXTERNAL_CMD:
+			{
+				if (execve(args[0], args, NULL) == -1)
+				{
+					perror(_getenv("PWD"));
+					/*dprintf(STDERR_FILENO, "%s: 1: %s: not found.\n", _getenv("PWD"), *args);*/
+					exit(2);
+				}
+				break;
+			}
+		case BUILT_IN_CMD:
+			{
+				func = get_func(args[0]);
+				func(args);
+				break;
+			}
+		case PATH_CMD:
+			{
+				break;
+			}
+		case INVALID_CMD:
+			{
+				break;
+			}
+	}
+}
+
+    /**if (cmd_type == EXTERNAL_CMD)
     {
         if (execve(*args, args, NULL) == -1)
         {
+            perror(_getenv("PWD"));
             dprintf(STDERR_FILENO, "%s: 1: %s: not found.\n", _getenv("PWD"), *args);
             exit(2);
         }
     }
     else if (cmd_type == BUILT_IN_CMD)
     {
-        /* To be populated */
+        func = get_func(args[0]);
+        func(args);
     }
     else if (cmd_type == PATH_CMD)
     {
-        /* To be populated */
+
     }
     else
     {
-        /* To be populated */
+
     }
-}
+} */
 
 /**
 * _getenv -     Locates the filename of environment variable
 * @filename:    Name of file to be searched for
 * Return:       Pointer to environment variable
 */
-char *_getenv(const char *filename)
+char *_getenv(char *filename)
 {
 	size_t i = 0, k = 0;
 	char *env_var = NULL;

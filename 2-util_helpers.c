@@ -7,7 +7,7 @@
 void ctrl_C_func(int signum)
 {
     if (signum == SIGINT)
-        _printf("\n ~$ ", STDIN_FILENO);
+        print("\n ~$ ", STDIN_FILENO);
 }
 
 /**
@@ -16,49 +16,50 @@ void ctrl_C_func(int signum)
 */
 char *_getline(void)
 {
-    char *buffer = NULL;
-    int BufSize = READ_BUF;
-    int index = 0, c, num_read;
+	int bufSize = READ_BUF, no_read, position = 0;
 
-    buffer = malloc(sizeof(char) * BufSize);
-    if (!buffer)
-    {
-        perror("Failed to allocate space in memory");
-        exit(EXIT_FAILURE);
-    }
+	char *buffer = malloc(bufSize * sizeof(char));
+	char c;
 
-    while (1)
-    {
-        num_read = read(STDIN_FILENO, &c, 1);
-        if (c == EOF || !num_read)
-        {
-            if (isatty(STDIN_FILENO))
-            {
-                _printf("\n", STDIN_FILENO);
-                return (NULL);
-            }
-        }
-        else if (c == '\n' || !num_read)
-        {
-            buffer[index] = '\0';
-            return (buffer);
-        }
-        else
-            buffer[index] = c;
-        index++;
+	if (buffer == NULL)
+	{
+		perror("Failed to allocate memory");
+		exit(EXIT_FAILURE);
+	}
+	while (1)
+	{
+		no_read = read(STDIN_FILENO, &c, 1);
+		if (c == EOF || !no_read)
+		{
+			/* checks if the input is EOT
+			 	(ctrl+D) and if it is from the terminal
+			*/
+			if (isatty(STDIN_FILENO) == 1)
+			{
+				print("\n", STDIN_FILENO);
+				return (NULL);
+			}
+		}
+		else if (c == '\n' || !no_read)
+		{
+			buffer[position] = '\0';
+			return (buffer);
+		}
+		else
+			buffer[position] = c;
+		position++;
 
-        /* Part for case of reallocation of memory */
-        if (index >= BufSize)
-        {
-            BufSize += READ_BUF;
-            buffer = _realloc (buffer, READ_BUF, BufSize);
-            if (!buffer)
-            {
-                perror("Can't reallocate additional memory to buffer");
-                exit(EXIT_FAILURE);
-            }
-        }
-    }
+		if (position >= bufSize)
+		{
+			bufSize += READ_BUF;
+			buffer = _realloc(buffer, READ_BUF, bufSize);
+			if (!buffer)
+			{
+				perror("Failed to re-allocate a space in the memory");
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
 }
 
 /**
@@ -109,47 +110,27 @@ char **tokenize(char *str)
 * execute-cmd - Executes inserted command
 * @args:        List of pointers to command strings
 */
-void executecmd (char **args, int cmd_type)
+void shell_execute(char **args, int cmd_type)
 {
-    if (cmd_type = BUILT_IN_CMD || EXTERNAL_CMD)
-    }
+	int status;
+	pid_t ChildPID;
 
-        pid_t child_pid;
-        int status;
+	if (cmd_type == EXTERNAL_CMD || cmd_type == PATH_CMD)
+	{
+		ChildPID = fork();
 
-        child_pid = fork();
-
-        if (child_pid == 0)
-        {
-            execute(args,cmd_type);
-        }
-        else if (child_pid < 0)
-        {
-            perror("Failed to create child process");
-            exit(1);
-        }
-        else
-            wait(&status);
-    }
-    else
-        execute(args, cmd_type);
+		if (ChildPID == 0)
+		{
+			execute(args, cmd_type);
+		}
+		if (ChildPID < 0)
+		{
+			perror("failed to call fork");
+			exit(1);
+		}
+		else
+			wait(&status);
+	}
+	else
+		execute(args, cmd_type);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
