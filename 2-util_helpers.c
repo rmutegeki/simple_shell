@@ -82,7 +82,7 @@ char **tokenize(char *str)
         exit (EXIT_FAILURE);
     }
 
-    token = strtok(str, DELIM);
+    token = _strtok(str, DELIM);
 
     while (token != NULL)
     {
@@ -100,7 +100,7 @@ char **tokenize(char *str)
                 exit (EXIT_FAILURE);
             }
         }
-        token = strtok(NULL, DELIM);
+        token = _strtok(NULL, DELIM);
     }
     tokens[index] = NULL;
     return (tokens);
@@ -113,7 +113,7 @@ char **tokenize(char *str)
 void shell_execute(char **args, int cmd_type, vars_t *vars)
 {
 	int status;
-	pid_t ChildPID;
+	pid_t ChildPID, W_PID __attribute__((unused));
 
 	if (cmd_type == EXTERNAL_CMD || cmd_type == PATH_CMD)
 	{
@@ -121,7 +121,7 @@ void shell_execute(char **args, int cmd_type, vars_t *vars)
 
 		if (ChildPID == 0)
 		{
-			execute(args, cmd_type, vars);
+            execute(args, cmd_type, vars);
 		}
 		if (ChildPID < 0)
 		{
@@ -129,7 +129,11 @@ void shell_execute(char **args, int cmd_type, vars_t *vars)
 			exit(1);
 		}
 		else
-			wait(&status);
+		{
+            do{
+                W_PID = waitpid(ChildPID, &status, WUNTRACED);
+            } while(!WIFEXITED(status) && !WIFSIGNALED(status));
+		}
 	}
 	else
 		execute(args, cmd_type, vars);

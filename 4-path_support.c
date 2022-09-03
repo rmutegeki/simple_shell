@@ -47,8 +47,8 @@ void execute(char **args, int cmd_type, vars_t *vars)
 	{
 		case EXTERNAL_CMD:
 			{
-				if (execve(*args, args, NULL) == -1)
-					execve_error(args);
+                if (execve(*args, args, NULL) == -1)
+                    execve_error(args);
 				break;
 			}
 		case BUILT_IN_CMD:
@@ -59,7 +59,7 @@ void execute(char **args, int cmd_type, vars_t *vars)
 			}
 		case PATH_CMD:
 			{
-				if (execve(locate_exe(*args), args, NULL) == -1)
+                if (execve(locate_exe(*args), args, NULL) == -1)
                     execve_error(args);
 				break;
 			}
@@ -113,8 +113,8 @@ char *locate_exe(char *cmd_name)
     if (filepath_exits(cmd_name))
         return (_strdup(cmd_name));
 
-    strtok(path, "=");
-    dir_path = strtok(NULL, ":");
+    _strtok(path, "=");
+    dir_path = _strtok(NULL, ":");
 
     while (dir_path)
     {
@@ -127,7 +127,7 @@ char *locate_exe(char *cmd_name)
         free(file_path);
         file_path = NULL;
 
-        dir_path = strtok(NULL, ":");
+        dir_path = _strtok(NULL, ":");
     }
     free(path);
     return (NULL);

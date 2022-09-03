@@ -46,6 +46,8 @@ void ctrl_C_func(int);
 char *_getline(void);
 char **tokenize(char *);
 void shell_execute(char **, int, vars_t *);
+unsigned int check_match(char, const char *);
+char *_strtok(char *, const char *);
 
 /* ----- Path Support Functions ----- */
 int check_command(char *);

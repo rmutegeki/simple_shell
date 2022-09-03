@@ -53,17 +53,3 @@ void free_env(char **env)
     }
     free(env);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
