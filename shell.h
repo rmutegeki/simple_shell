@@ -15,19 +15,25 @@
 /* ---- Declaring Environment Variables ---- */
 extern char **environ;
 
+/* ---- Global Shell Variables ----- */
+typedef struct global_vars
+{
+    char *old_pwd;
+} vars_t;
+
 /* ---- Built-in Support Functions ----- */
 typedef struct built_in_func
 {
     char *cmd_name;
-    void (*func)(char **arg);
+    void (*func)(char **arg, vars_t *);
 } map_func;
 
-void (*get_func(char *))(char **);
+void (*get_func(char *))(char **, vars_t *);
 
 /* ----- Built-in Commands ---- */
-void env(char **);
-void ch_dir(char **);
-void quit(char **);
+void env(char **, vars_t *);
+void ch_dir(char **, vars_t *);
+void quit(char **, vars_t *);
 
 /*----- string-helper Functions ----- */
 ssize_t print(char *, int);
@@ -39,11 +45,11 @@ char *_strdup(char *);
 void ctrl_C_func(int);
 char *_getline(void);
 char **tokenize(char *);
-void shell_execute(char **, int);
+void shell_execute(char **, int, vars_t *);
 
 /* ----- Path Support Functions ----- */
 int check_command(char *);
-void execute(char **, int);
+void execute(char **, int, vars_t *);
 char *_getenv(char *);
 char *locate_exe(char *);
 
@@ -53,6 +59,7 @@ int filepath_exits(char *);
 
 /*----- Memory Management Functions -----*/
 void *_realloc(void *, unsigned int, unsigned int);
+void free_env(char **);
 
 /*---- Error Messages ----- */
 void fork_error(char **);
@@ -70,5 +77,8 @@ void execve_error(char **);
 #define EXTERNAL_CMD 2
 #define PATH_CMD 3
 #define INVALID_CMD -1
+
+/* Set current Working Directory */
+#define SETPWD(D) (D = _getenv("OLDPWD"))
 
 #endif /* SHELL_H */

@@ -39,9 +39,9 @@ int check_command(char *args)
 * @args:        Double Pointer to array of commands
 * @cmd_type:    Type of command to be executed
 */
-void execute(char **args, int cmd_type)
+void execute(char **args, int cmd_type, vars_t *vars)
 {
-	void (*func)(char **args);
+	void (*func)(char **args, vars_t *lz);
 
 	switch (cmd_type)
 	{
@@ -54,7 +54,7 @@ void execute(char **args, int cmd_type)
 		case BUILT_IN_CMD:
 			{
 				func = get_func(*args);
-				func(args);
+				func(args, vars);
 				break;
 			}
 		case PATH_CMD:
@@ -65,7 +65,10 @@ void execute(char **args, int cmd_type)
 			}
 		case INVALID_CMD:
 			{
-				break;
+				/* Name of shell program missing */
+				print(": 1: ", STDERR_FILENO);
+				print(*args, STDERR_FILENO);
+				print(": not found\n", STDERR_FILENO);
 			}
 	}
 }

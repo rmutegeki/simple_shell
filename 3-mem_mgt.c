@@ -36,3 +36,34 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
     free(ptr);
     return (p);
 }
+
+/**
+* free_env -    free the shell's environment
+* @env:         Shells environment
+*
+* Return:       Void
+*/
+void free_env(char **env)
+{
+    unsigned int i;
+
+    for (i = 0; env[i] != NULL; i++)
+    {
+        free(env[i]);
+    }
+    free(env);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

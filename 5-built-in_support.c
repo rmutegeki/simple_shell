@@ -4,7 +4,7 @@
 * get_func -    Matches cmd name from stdin to builtin function
 * @arg:        The cmd name from the stdin
 */
-void (*get_func(char *arg))(char **)
+void (*get_func(char *arg))(char **, vars_t *)
 {
     map_func builtins[] = {
         {"env", env},

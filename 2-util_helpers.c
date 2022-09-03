@@ -110,7 +110,7 @@ char **tokenize(char *str)
 * execute-cmd - Executes inserted command
 * @args:        List of pointers to command strings
 */
-void shell_execute(char **args, int cmd_type)
+void shell_execute(char **args, int cmd_type, vars_t *vars)
 {
 	int status;
 	pid_t ChildPID;
@@ -121,7 +121,7 @@ void shell_execute(char **args, int cmd_type)
 
 		if (ChildPID == 0)
 		{
-			execute(args, cmd_type);
+			execute(args, cmd_type, vars);
 		}
 		if (ChildPID < 0)
 		{
@@ -132,5 +132,5 @@ void shell_execute(char **args, int cmd_type)
 			wait(&status);
 	}
 	else
-		execute(args, cmd_type);
+		execute(args, cmd_type, vars);
 }
