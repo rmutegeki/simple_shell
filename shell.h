@@ -33,6 +33,7 @@ void quit(char **);
 ssize_t print(char *, int);
 unsigned int _strlen(char *);
 int _strcmp(char *, char *);
+char *_strdup(char *);
 
 /*----- Shell utility Functions ----- */
 void ctrl_C_func(int);
@@ -44,9 +45,18 @@ void shell_execute(char **, int);
 int check_command(char *);
 void execute(char **, int);
 char *_getenv(char *);
+char *locate_exe(char *);
+
+/* ----- Path Support Functions (2) ----- */
+char *join_paths(char, char *, char *);
+int filepath_exits(char *);
 
 /*----- Memory Management Functions -----*/
 void *_realloc(void *, unsigned int, unsigned int);
+
+/*---- Error Messages ----- */
+void fork_error(char **);
+void execve_error(char **);
 
 /*----- Buffer sizes for Token + String Block ----*/
 #define READ_BUF 1028

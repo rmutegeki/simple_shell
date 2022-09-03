@@ -58,3 +58,64 @@ int _strcmp(char *str1, char *str2)
     else
         return (*str1 < *str2 ? -1 : 1);
 }
+
+/*
+* _strdup - Duplicates a string
+* @str1:     Pointer to the string to be duplicated
+* Return:   Pointer to duplicated string
+*/
+char *_strdup(char *str1)
+{
+    size_t i = 0;
+    char *str2 = NULL;
+    size_t length;
+
+    length = _strlen(str1);
+    length += 1;
+
+    str2 = malloc(sizeof(*str2) * length);
+    if (str2 == NULL)
+        return (NULL);
+
+    while (i <= length)
+    {
+        str2[i] = str1[i];
+        i++;
+    }
+
+    return (str2);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,27 +5,33 @@
 * @args:            first argument of the array of pointers
 * Returns:          Marco integer to
 */
-int check_cmdtype(char *args)
+int check_command(char *args)
 {
-    int i = 0;
-    char *builtin_cmd[] = {"exit", "cd", "env", NULL};
+	int i = 0;
+	char *builtins[] = {"exit", "cd", "env", NULL};
+	char *path = NULL;
 
-    /* Checks for external commands */
-    while (args[i])
-    {
-        if (args[i] == '/')
-            return (EXTERNAL_CMD);
-        i++;
-    }
-    /* Checks for Built-in commands */
-    i = 0;
-    while (builtin_cmd[i] != NULL)
-    {
-        if (_strcmp(args, builtin_cmd[i]) == 0)
-            return (BUILT_IN_CMD);
-        i++;
-    }
-    return (INVALID_CMD);
+	while (args[i])
+	{
+		if (args[i] == '/')
+			return (EXTERNAL_CMD);
+		i++;
+	}
+
+	i = 0;
+
+	while (builtins[i] != NULL)
+	{
+		if (_strcmp(args, builtins[i]) == 0)
+			return (BUILT_IN_CMD);
+		i++;
+	}
+
+	path = locate_exe(args);
+	if (path)
+        return (PATH_CMD);
+
+	return (INVALID_CMD);
 }
 
 /**
@@ -35,28 +41,26 @@ int check_cmdtype(char *args)
 */
 void execute(char **args, int cmd_type)
 {
-    void (*func)(char **arg);
+	void (*func)(char **args);
 
-    switch (cmd_type)
+	switch (cmd_type)
 	{
 		case EXTERNAL_CMD:
 			{
-				if (execve(args[0], args, NULL) == -1)
-				{
-					perror(_getenv("PWD"));
-					/*dprintf(STDERR_FILENO, "%s: 1: %s: not found.\n", _getenv("PWD"), *args);*/
-					exit(2);
-				}
+				if (execve(*args, args, NULL) == -1)
+					execve_error(args);
 				break;
 			}
 		case BUILT_IN_CMD:
 			{
-				func = get_func(args[0]);
+				func = get_func(*args);
 				func(args);
 				break;
 			}
 		case PATH_CMD:
 			{
+				if (execve(locate_exe(*args), args, NULL) == -1)
+                    execve_error(args);
 				break;
 			}
 		case INVALID_CMD:
@@ -65,30 +69,6 @@ void execute(char **args, int cmd_type)
 			}
 	}
 }
-
-    /**if (cmd_type == EXTERNAL_CMD)
-    {
-        if (execve(*args, args, NULL) == -1)
-        {
-            perror(_getenv("PWD"));
-            dprintf(STDERR_FILENO, "%s: 1: %s: not found.\n", _getenv("PWD"), *args);
-            exit(2);
-        }
-    }
-    else if (cmd_type == BUILT_IN_CMD)
-    {
-        func = get_func(args[0]);
-        func(args);
-    }
-    else if (cmd_type == PATH_CMD)
-    {
-
-    }
-    else
-    {
-
-    }
-} */
 
 /**
 * _getenv -     Locates the filename of environment variable
@@ -109,16 +89,46 @@ char *_getenv(char *filename)
 			k++;
 		}
 		if(filename[k] == '\0')
-			return (env_var);
+			return (_strdup(env_var));
 		i++;
 	}
 	return (NULL);
 }
 
+/**
+* locate_exe -  Locates path directory containing function executable file
+* @cmd_name:    Exectable File to be searched for.
+* Return:       Returns absolute path to executable file
+*/
+char *locate_exe(char *cmd_name)
+{
+    char *path = _getenv("PATH");
+    char *dir_path = NULL;
+    char *file_path = NULL;
 
+    /*Check if stdin is already in absolute format */
+    if (filepath_exits(cmd_name))
+        return (_strdup(cmd_name));
 
+    strtok(path, "=");
+    dir_path = strtok(NULL, ":");
 
+    while (dir_path)
+    {
+        file_path = join_paths('/', dir_path, cmd_name);
+        if (filepath_exits(file_path))
+        {
+            free(path);
+            return (file_path);
+        }
+        free(file_path);
+        file_path = NULL;
 
+        dir_path = strtok(NULL, ":");
+    }
+    free(path);
+    return (NULL);
+}
 
 
 
