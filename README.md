@@ -13,6 +13,32 @@ The repository contains the following files:
 AUTHORS | docker-formatted author file
 main.h | header file
 README.md | readme file
+aux_lists.c | xxxxx
+aux_lists2.c | xxxxxx
+aux_strfunctions.c | xxxxxx
+aux_mem.c | xxxxx
+aux_str2.c | xxxxxxx
+aux_str3.c | xxxxxxx
+check_syntax_error.c | xxxxxxxx
+shell_loop.c | xxxxxxx
+split.c | xxxxxxxxx
+rep_var.c | xxxxxxxx
+get_line.c | xxxxxxxx
+exec_line.c | xxxxxxxxxxxxxx
+cmd_exec.c | xxxxxxxxxxxxxxxxxxxxxx
+env1.c | xxxxxx
+cd.c | xxxxxxxxxxxx
+cd_shell.c | xxxxxxxxxx
+get_builtin.c | xxxxxxxxxxx
+_exit.c | xxxxxxxxxxx
+aux_stdlib.c | xxxxxxxxxxxx
+aux_error1.c | xxxxxxxxxxxxxx
+aux_error2.c | xxxxxxxxxxx
+get_error.c | xxxxxxxxxxxxxxx
+get_sigint.c | xxxxxxxxxxxxxxx
+aux_help.c | xxxxxxxxxxxxx
+aux_help2.c | xxxxxxxxxxxx
+get_help.c | xxxxxxxxxxx
 
 ### Function Descriptions
 
