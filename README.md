@@ -1,11 +1,11 @@
 # simple_shell
-### Description
+### Description :book:
 A project by Ronald Mutegeki and Raymond Lukwago. The simple_shell is a command line interpreter, or shell, in the tradition of the first Unix shell written by Ken Thompson in 1971. It is intentionally minimalistic, but includes the basic functionality of a traditional Unix-like command line user interface.
 
-### Environment
+### Environment :floppy_disk:
 This shell was developed and tested on `Ubuntu 20.04 LTS` via Vagrant in Virtual Box.
 
-### File Contents
+### File Contents :open_file_folder:
 The repository contains the following files:
 
  **File**   |   **Description**
@@ -40,18 +40,18 @@ aux_help.c | xxxxxxxxxxxxx
 aux_help2.c | xxxxxxxxxxxx
 get_help.c | xxxxxxxxxxx
 
-### Function Descriptions
+### Function Descriptions :open_file_folder:
 
 **Function** | **Description**
 -------------- | -----------------
 ssize_t get_line(char **lineptr, size_t *n, FILE *stream) | uses getline to read input from STDIN
 
-### Usage and Installation
+### Usage and Installation :floppy_disk:
 Clone the repository and then compile using gcc.
 ```
 $ git clone https://github.com/AfaMadza/simple_shell
 ```
-### Compilation
+### Compilation :floppy_disk:
 This code was compiled with the following flags:
 ` gcc -Wall -Werror -Wextra -pedantic *.c -o hsh `
 
@@ -66,6 +66,10 @@ hsh             parse_argv.c   simple_shell.c
 $
 
 ```
+
+## License :warning:
+
+:copyright: 2022 All rights reserved.
 
 ### Authors
 
