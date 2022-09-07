@@ -1,0 +1,6 @@
+# Ignore Emacs buffer files
+*#
+*~
+
+# Ignore temporary executable files
+*.out
