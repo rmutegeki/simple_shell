@@ -67,3 +67,11 @@ $
 
 ```
 
+### Authors
+
+* [**Raymond Lukwago**](https://github.com/lukwagoraymond)
+* [**Ronald Mutegeki**](https://github.com/rmutegeki)
+
+
+
+
