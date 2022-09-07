@@ -1,7 +1,7 @@
 #include "headersh.h"
 
 /**
-* main - call the shell by Arturo and Juani
+* main - call the shell by Ronald + Raymond
 * @ac: argument count
 * @av: argument vector
 * @env: external variable environment parsed by lines

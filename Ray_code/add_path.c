@@ -15,7 +15,7 @@ int _strlen(char *st)
 }
 
 /**
-* _strcat - check the code for Holberton School students.
+* _strcat - check the code for ALX School students.
 * @dest: is a pointer type char
 * @src: is a pointer type char
 * Return: Always 0.
