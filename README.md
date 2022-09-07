@@ -19,22 +19,22 @@ aux_strfunctions.c | xxxxxx
 aux_mem.c | xxxxx
 aux_str2.c | xxxxxxx
 aux_str3.c | xxxxxxx
-check_syntax_error.c | xxxxxxxx
-shell_loop.c | xxxxxxx
-split.c | xxxxxxxxx
+check_syntax_error.c | checks whether command input is valid
+shell_loop.c | controls the flow of the shell
+split.c | splits string into an array of single word tokens
 rep_var.c | xxxxxxxx
-get_line.c | xxxxxxxx
+get_line.c |  uses getline to read input from STDIN
 exec_line.c | xxxxxxxxxxxxxx
-cmd_exec.c | xxxxxxxxxxxxxxxxxxxxxx
-env1.c | xxxxxx
+cmd_exec.c | launches processes
+env1.c | searches for an argument in PATH env variable
 cd.c | xxxxxxxxxxxx
 cd_shell.c | xxxxxxxxxx
 get_builtin.c | xxxxxxxxxxx
-_exit.c | xxxxxxxxxxx
+_exit.c | exits the shell
 aux_stdlib.c | xxxxxxxxxxxx
-aux_error1.c | xxxxxxxxxxxxxx
-aux_error2.c | xxxxxxxxxxx
-get_error.c | xxxxxxxxxxxxxxx
+aux_error1.c | functions to handle errors
+aux_error2.c | functions to handle errors
+get_error.c | functions to handle errors
 get_sigint.c | xxxxxxxxxxxxxxx
 aux_help.c | xxxxxxxxxxxxx
 aux_help2.c | xxxxxxxxxxxx
